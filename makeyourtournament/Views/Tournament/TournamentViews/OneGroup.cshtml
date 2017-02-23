@@ -1,0 +1,232 @@
+﻿@using makeyourtournament.Models
+@model TournamentViewModel 
+
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h3 class="text-center">
+                            Liga
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover" >
+                                <thead>
+                                <th>
+                                    Team
+                                </th>
+                                <th>
+                                    User
+                                </th>
+                                <th>
+                                    Spiele
+                                </th>
+                                <th>
+                                    S
+                                </th>
+                                <th>
+                                    U
+                                </th>
+                                <th>
+                                    N
+                                </th>
+                                <th>
+                                    T
+                                </th>
+                                <th>
+                                    GT
+                                </th>
+                                <th>
+                                    TD
+                                </th>
+                                <th>
+                                    P
+                                </th>
+                                </thead>
+                                <tbody>
+                                @foreach (var item in Model.Tournament.GroupCard.OrderByDescending(x => x.Statistic.points).ThenByDescending(x => x.Statistic.goals).ThenByDescending(x => x.Statistic.owngoals))
+                                {
+                                        <tr>
+                                            <td>
+                                                @item.Team.name
+                                            </td>
+                                            <td>
+                                                @item.Team.User.name
+                                            </td>
+                                            <td>
+                                                @item.Statistic.totalGames
+                                            </td>
+                                            <td>
+                                                @item.Statistic.wins
+                                            </td>
+                                            <td>
+                                                @item.Statistic.draws
+                                            </td>
+                                            <td>
+                                                @item.Statistic.loses
+                                            </td>
+                                            <td>
+                                                @item.Statistic.goals
+                                            </td>
+                                            <td>
+                                                @item.Statistic.owngoals
+                                            </td>
+                                            <td>
+                                                @(item.Statistic.goals - item.Statistic.owngoals)
+                                            </td>
+                                            <td>
+                                                @item.Statistic.points
+                                            </td>
+                                        </tr>
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="text-center">
+                        Paarungen der Liga
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <?php use App\Team;$count = 0 ?>
+                    <div class="table-responsive">
+                        <table class="table table-hover" >
+                            <thead>
+                            <th>
+                                Heim
+                            </th>
+                            <th>
+
+                            </th>
+                            <th>
+
+                            </th>
+                            <th>
+
+                            </th>
+                            <th>
+                                Auswärts
+                            </th>
+                            </thead>
+                            @foreach (var match in Model.Tournament.Matching.Where(t => t.Round.Id == 1))
+                            {
+
+                                Boolean haveMatch = false;
+                                String teamA = "-";
+                                String teamB = "-";
+
+
+                                foreach (var card in Model.Tournament.GroupCard)
+                                {
+                                        if (match.teamA == card.TeamId)
+                                        {
+                                            teamA = card.Team.name;
+                                            haveMatch = true;
+                                        }
+                                        if (match.teamB == card.TeamId)
+                                        {
+                                            teamB = card.Team.name;
+                                        }                                    
+                                }
+                                if (haveMatch)
+                                {
+                                    if (Model.Tournament.owner == Model.User.Id && Model.Tournament.status == 1)
+                                    {
+                                        <form method="post" action="/Tournament/SaveMatch">
+                                            @Html.AntiForgeryToken()
+                                            <tr>
+                                                <td>
+                                                    @teamA
+                                                </td>
+                                                <td>
+                                                    @if (match.goalA == -1)
+                                                    {
+                                                        <input type="number" name="goalA" min="0" value="" class="form-control">
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="number" name="goalA" min="0" value="@match.goalA" class="form-control">
+                                                    }
+                                                </td>
+                                                <td>
+                                                    :
+                                                </td>
+                                                <td>
+                                                    @if (match.goalB == -1)
+                                                    {
+                                                        <input type="number" name="goalB" min="0" value="" class="form-control">
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="number" name="goalB" min="0" value="@match.goalB" class="form-control">
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @teamB
+                                                </td>
+                                                <td>
+                                                    <input type="hidden" id="match_id" name="match_id" value="@match.Id" />
+                                                    <button class="btn btn-info btn-sm" type="submit">
+                                                        <i class="fa fa-pencil"></i>
+                                                    </button>
+
+                                                </td>
+                                            </tr>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td>
+                                                @teamA
+                                            </td>
+                                            <td>
+                                                @if (match.goalA != -1)
+                                                {
+                                                    @match.goalA
+                                                }
+                                                else
+                                                {
+                                                    @("-")
+                                                }
+                                            </td>
+                                            <td>
+                                                :
+                                            </td>
+                                            <td>
+                                                @if (match.goalB != -1)
+                                                {
+                                                    @match.goalB
+                                                }
+                                                else
+                                                {
+                                                    @("-")
+                                                }
+                                            </td>
+                                            <td>
+                                                @teamB
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            }
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-1"></div>
+</div>

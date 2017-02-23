@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="FIFA Turnier Party Zocken Planen">
+    <meta name="author" content="Team makeyourtournament">
+
+    <title>makeyourtournament</title>
+    @Styles.Render("~/Content/fontawesome")
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")   
+    
+
+</head>
+<body>
+   
+    @RenderPage("~/Views/Shared/navigation.cshtml")
+
+    <div class="container-fluid body-content" id="wrapper">
+        @RenderBody()        
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    
+        
+    @Scripts.Render("~/Scripts/toastr.min.js")
+    
+</body>
+</html>

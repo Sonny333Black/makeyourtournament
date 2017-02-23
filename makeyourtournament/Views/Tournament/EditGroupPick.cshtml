@@ -1,0 +1,69 @@
+﻿@using makeyourtournament.Models
+@model EditGroupPickViewModel
+    <div class="row">
+        <div class="col-md-2"></div>
+        @if (Model.Tournament.owner == Model.User.Id)
+        {
+            <div class="col-md-8">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h2 class="text-center">
+                            <a href="/">
+                                <button class="btn btn-danger pull-left" style="" id=""><i class="fa fa-arrow-left"></i></button>
+                            </a>
+                            Gruppen Auslosung
+                        </h2>
+                    </div>
+                    <div class="panel-body">
+                        <input type="hidden" id="countTeamsPerUser" value="{!! $tour->countUser !!}">
+                        @for (var i = 0; i < Model.Tournament.countGroups; i++)
+                        {
+                            <div class="col-md-3">
+                                <div class="panel panel-success">
+                                    <div class="panel-heading">
+                                        <h3 class="text-center">
+                                            Gruppe @(i + 1)
+                                        </h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        @{int count = 0;}                                        
+                                        @foreach (var item in Model.Tournament.GroupCard)
+                                        {
+                                            if (item.groupNumber == (i + 1))
+                                            {
+                                                count++;
+                                                <h4>
+                                                    @(count). @(item.Team.name) (@(item.Team.User.name))
+                                                </h4>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        
+                        <form action="/Tournament/MixTeamsToGroupNew" method="post">
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <input type="hidden" id="tour_id" name="tour_id" value="@Model.Tournament.Id" />
+                            <button id="pickTeams" class="btn btn-success btn-lg center-block"  type="submit">
+                                Zufällig
+                            </button>
+                        </form>
+                            <br>
+                        <form action="/Tournament/StartTournament" method="post">
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <input type="hidden" id="tour_id" name="tour_id" value="@Model.Tournament.Id" />
+                            <button id="pickTeams" class="btn btn-success btn-lg center-block"  type="submit">
+                                Turnierplan erstellen
+                            </button>
+                        </form>
+</div>
+                </div>
+            </div>
+        }
+        
+        
+        <div class="col-md-2"></div>
+    </div>

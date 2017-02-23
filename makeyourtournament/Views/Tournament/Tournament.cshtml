@@ -1,0 +1,24 @@
+﻿@using makeyourtournament.Models
+@model TournamentViewModel
+
+@if (Model.Tournament.status == 1)
+{
+    Html.RenderPartial("~/Views/Tournament/TournamentViews/TournamentGroup.cshtml", Model);
+}
+    
+@if (Model.Tournament.status == 2)
+{
+    Html.RenderPartial("~/Views/Tournament/TournamentViews/TournamentKO.cshtml",Model);
+}
+
+@if (Model.Tournament.status == 3)
+{
+    if (Model.Tournament.Modus.Id == 3)
+    {
+        Html.RenderPartial("~/Views/Tournament/TournamentViews/TournamentKO.cshtml",Model);
+    }
+    else
+    {
+        Html.RenderPartial("~/Views/Tournament/TournamentViews/TournamentGroup.cshtml",Model);
+    }
+}

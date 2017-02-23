@@ -1,0 +1,230 @@
+﻿@using makeyourtournament.Models
+@model TournamentViewModel
+
+    @if (Model.Tournament.owner == Model.User.Id && Model.Tournament.status != 3)
+    {
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="text-center">
+                        <a href="/">
+                            <button class="btn btn-danger pull-left" style="" id=""><i class="fa fa-arrow-left"></i></button>
+                        </a>
+                        Bearbeite Turnier - @Model.Tournament.name
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                        </div>
+                        <div class="col-md-4">
+                            <form action="/Tournament/NewKOPick" method="post">
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <input type="hidden" id="tour_id" name="tour_id" value="@Model.Tournament.Id" />
+                                <button class="btn btn-success center-block" type="submit">
+                                    Neu Auslosen
+                                </button>
+                            </form>
+                        </div>
+
+                        <div class="col-md-4">
+                            <form action="/Tournament/StartKOTournament" method="post">
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <input type="hidden" id="tour_id" name="tour_id" value="@Model.Tournament.Id" />
+                                <button class="btn btn-success center-block" type="submit">
+                                    <i class="fa fa-play"></i> Turnier starten
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+    }
+
+    @{ 
+
+        int gamesInKO = Model.Tournament.Matching.Where(z => z.Round.Id > 1).Count();
+        int countKOPanels = 0;
+        if (gamesInKO == 15) {
+            countKOPanels = 4;
+        }
+        if (gamesInKO == 7) {
+            countKOPanels = 3;
+        }
+        if (gamesInKO == 3) {
+            countKOPanels = 2;
+        }
+        if (gamesInKO == 1) {
+            countKOPanels = 1;
+        }
+    }
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            @for (int i = 0; i < countKOPanels; i++)
+            {
+            <div class="col-md-6">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h3 class="text-center">
+                            @{
+                                String headline = "";
+                                if (i == 0) {
+                                    if (gamesInKO == 15) {
+                                        headline = "Paarungen für Achtelfinale";
+                                    }
+                                    if (gamesInKO == 7) {
+                                        headline = "Paarungen für Viertelfinale";
+                                    }
+                                    if (gamesInKO == 3) {
+                                        headline = "Paarungen für Halbfinale";
+                                    }
+                                    if (gamesInKO == 1) {
+                                        headline = "Paarungen für Finale";
+                                    }
+                                }
+                                if (i == 1) {
+                                    if (gamesInKO == 15) {
+                                        headline = "Paarungen für Viertelfinale";
+                                    }
+                                    if (gamesInKO == 7) {
+                                        headline = "Paarungen für Halbfinale";
+                                    }
+                                    if (gamesInKO == 3) {
+                                        headline = "Paarungen für Finale";
+                                    }
+                                }
+                                if (i == 2) {
+                                    if (gamesInKO == 15) {
+                                        headline = "Paarungen für Halbfinale";
+                                    }
+                                    if (gamesInKO == 7) {
+                                        headline = "Paarungen für Finale";
+                                    }
+                                }
+                                if (i == 3) {
+                                    if (gamesInKO == 15) {
+                                        headline = "Paarungen für Finale";
+                                    }
+                                }
+                            }
+                            @headline
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                <th>
+                                    Heim
+                                </th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th>
+                                    Auswärts
+                                </th>
+                                </thead>
+                                @if (i == 0)
+                                {
+                                    if (gamesInKO == 15)
+                                    {
+                                        foreach (var match in Model.Tournament.Matching.Where(z => z.Round.Id == 2))
+                                        {
+                                            Html.RenderPartial("~/Views/Tournament/TournamentViews/ShowMatchesKO.cshtml", new KOMatchesViewModel { Tournament=Model.Tournament, User=Model.User, TeamNames = Model.TeamNames, Match = match });
+                                        }
+                                    }
+                                    if (gamesInKO == 7)
+                                    {
+                                        foreach (var match in Model.Tournament.Matching.Where(z => z.Round.Id == 3))
+                                        {
+
+                                            Html.RenderPartial("~/Views/Tournament/TournamentViews/ShowMatchesKO.cshtml", new KOMatchesViewModel { Tournament = Model.Tournament, User = Model.User, TeamNames = Model.TeamNames, Match = match });
+                                        }
+                                    }
+                                    if (gamesInKO == 3)
+                                    {
+                                        foreach (var match in Model.Tournament.Matching.Where(z => z.Round.Id == 4))
+                                        {
+                                            Html.RenderPartial("~/Views/Tournament/TournamentViews/ShowMatchesKO.cshtml", new KOMatchesViewModel { Tournament = Model.Tournament, User = Model.User, TeamNames = Model.TeamNames, Match = match });
+                                        }
+                                    }
+                                    if (gamesInKO == 1)
+                                    {
+                                        foreach (var match in Model.Tournament.Matching.Where(z => z.Round.Id == 5))
+                                        {
+                                            Html.RenderPartial("~/Views/Tournament/TournamentViews/ShowMatchesKO.cshtml", new KOMatchesViewModel { Tournament = Model.Tournament, User = Model.User, TeamNames = Model.TeamNames, Match = match });
+                                        }
+                                    }
+                                }
+                                
+                                @if (i == 1){
+                                    if (gamesInKO == 15)
+                                    {
+                                        foreach (var match in Model.Tournament.Matching.Where(z => z.Round.Id == 3))
+                                        {
+                                            Html.RenderPartial("~/Views/Tournament/TournamentViews/ShowMatchesKO.cshtml", new KOMatchesViewModel { Tournament = Model.Tournament, User = Model.User, TeamNames = Model.TeamNames, Match = match });
+                                        }
+                                    }
+                                    if (gamesInKO == 7)
+                                    {
+                                        foreach (var match in Model.Tournament.Matching.Where(z => z.Round.Id == 4))
+                                        {
+                                            Html.RenderPartial("~/Views/Tournament/TournamentViews/ShowMatchesKO.cshtml", new KOMatchesViewModel { Tournament = Model.Tournament, User = Model.User, TeamNames = Model.TeamNames, Match = match });
+                                        }
+                                    }
+                                    if (gamesInKO == 3)
+                                    {
+                                        foreach (var match in Model.Tournament.Matching.Where(z => z.Round.Id == 5))
+                                        {
+                                            Html.RenderPartial("~/Views/Tournament/TournamentViews/ShowMatchesKO.cshtml", new KOMatchesViewModel { Tournament = Model.Tournament, User = Model.User, TeamNames = Model.TeamNames, Match = match });
+                                        }
+                                    }
+                                }
+                                @if (i == 2)
+                                {
+                                    if (gamesInKO == 15)
+                                    {
+                                        foreach (var match in Model.Tournament.Matching.Where(z => z.Round.Id == 4))
+                                        {
+                                            Html.RenderPartial("~/Views/Tournament/TournamentViews/ShowMatchesKO.cshtml", new KOMatchesViewModel { Tournament = Model.Tournament, User = Model.User, TeamNames = Model.TeamNames, Match = match });
+                                        }
+                                    }
+                                    if (gamesInKO == 7)
+                                    {
+                                        foreach (var match in Model.Tournament.Matching.Where(z => z.Round.Id == 5))
+                                        {
+                                            Html.RenderPartial("~/Views/Tournament/TournamentViews/ShowMatchesKO.cshtml", new KOMatchesViewModel { Tournament = Model.Tournament, User = Model.User, TeamNames = Model.TeamNames, Match = match });
+                                        }
+                                    }
+                                }
+                                @if (i == 3)
+                                {
+                                    if (gamesInKO == 15)
+                                    {
+                                        foreach (var match in Model.Tournament.Matching.Where(z => z.Round.Id == 5))
+                                        {
+                                            Html.RenderPartial("~/Views/Tournament/TournamentViews/ShowMatchesKO.cshtml", new KOMatchesViewModel { Tournament = Model.Tournament, User = Model.User, TeamNames = Model.TeamNames, Match = match });
+                                        }
+                                    }
+                                }
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+                                }
+        </div>
+
+        <div class="col-md-1"></div>
+    </div>

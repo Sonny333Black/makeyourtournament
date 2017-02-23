@@ -1,0 +1,32 @@
+﻿@model makeyourtournament.Models.ChangePasswordViewModel
+
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="text-center">
+                    Wollen sie den Account wirklich löschen
+                </h3>
+            </div>
+            <div class="panel-body">
+                @using (Html.BeginForm("DeleteAccountNow", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary("", new { @class = "text-danger" })
+                    
+                    <div class="form-group text-center">
+                            <input type="submit" value="Account wirklich löschen" class="btn btn-danger" />
+                    </div>
+                }
+                @section Scripts {
+                    @Scripts.Render("~/bundles/jqueryval")
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+

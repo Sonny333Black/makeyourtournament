@@ -1,0 +1,335 @@
+﻿@using makeyourtournament.Models
+@model LandingViewModel
+
+
+
+@if (Model.User.Team.Count() == 0)
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <a href="@Url.Action( "Index", "Team")">
+                    <div class="col-md-12 text-center">
+                        <div class="alert alert-info">
+                            Lege zuerst Teams an
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+
+}    
+    <div class="row">
+        <div class="col-md-3">
+            <div class="panel panel-success" id="landingScreen">
+                <div class="panel-heading">
+                    <h2 class="text-center">
+                        @Model.User.name
+                    </h2>
+                </div>
+                <div class="panel-body">                    
+                    <br>
+                    <div class="table-responsive">
+                        <table class="table table-hover">                            
+                            <thead>
+                                <tr>
+                                    <td>
+                                        Spiele:
+                                    </td>
+                                    <td>
+                                        @Model.User.Statistic.totalGames
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Siege:
+                                    </td>
+                                    <td>
+                                        @Model.User.Statistic.wins
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Niederlagen:
+                                    </td>
+                                    <td>
+                                        @Model.User.Statistic.loses
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Unentschieden:
+                                    </td>
+                                    <td>
+                                        @Model.User.Statistic.draws
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Tore:
+                                    </td>
+                                    <td>
+                                        @Model.User.Statistic.goals
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Gegentore:
+                                    </td>
+                                    <td>
+                                        @Model.User.Statistic.owngoals
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Differens:
+                                    </td>
+                                    <td>
+                                        @{ 
+                                            int differnz = Model.User.Statistic.goals - Model.User.Statistic.owngoals;
+                                        }
+                                        @differnz                                    
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Anzahl Teams:
+                                    </td>
+                                    <td>
+                                        @Model.User.Team.Count()
+                                    </td>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-success goto">
+                <div class="panel-heading">
+                    <h2 class="text-center">
+                        Meine Teams
+                    </h2>
+                </div>
+                <div class="panel-body">
+                    <a href="@Url.Action( "Index", "Team")">
+                        <div class="text-center">
+                            <span class="fa fa-users fa-5x" aria-hidden="true"></span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+
+    <div class="panel panel-success" id="landingScreen">
+        <div class="panel-heading">
+            <h2 class="text-center">
+                Laufende Turniere (von @User.Identity.Name)
+            </h2>
+        </div>
+        <div class="panel-body">
+            <br>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <th>
+                        Name des Turniers
+                    </th>
+                    <th>
+                        Modus
+                    </th>
+                    <th>
+                        Anzahl der Teilnehmer
+                    </th>
+                    <th>
+                        Anzahl der Teams pro user
+                    </th>
+                    <th>
+                        Gruppen Anzahl
+                    </th>
+                    @*<th>
+                        Besitzer
+                    </th>*@
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.User.Tournament.Where(i => i.status != 3).OrderByDescending(i => i.Id))
+                        {                            
+                                <tr>
+                                    <td>
+                                        @item.name
+                                    </td>
+                                    <td>
+                                        @item.Modus.name
+                                    </td>
+                                    <td>
+                                        @item.countUser
+                                    </td>
+                                    <td>
+                                        @item.countTeamsForUser
+                                    </td>
+                                    <td>
+                                        @item.countGroups
+                                    </td>
+                                    @*<td>
+                                        {!! \App\User::find($tour->owner)->username !!}
+                                    </td>*@
+                                    <td>
+                                        <form action="/Tournament/Edit" method="post">
+                                            @Html.AntiForgeryToken()
+                                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                            <input type="hidden" value="@item.Id" name="tour_id" id="tour_id" />
+                                            <button type="submit" class="btn btn-success center-block" style="" id=""><i class="fa fa-pencil-square"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>                            
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="panel panel-success goto">
+        <div class="panel-heading">
+            <h2 class="text-center">
+                Neues Turnier
+            </h2>
+        </div>
+        <div class="panel-body">
+                @if (Model.User.User_has_friends.Count() == 0)
+                {
+                    <p>
+                        Du brauchst erst Freunde, um ein Turnier zu erstellen.<br>
+                        Füge Freunde mit Hilfe eines Freundeschlüssel hinzu.<br>
+                        Deinen eigenen Freundesschlüssel findest du in deinen Profil-Einstellungen in der Navigation.
+                    </p>
+                }
+                else
+                {
+                    <a href="@Url.Action( "Index", "Tournament")">
+                        <div class="text-center">
+                            <span class="fa fa-plus fa-5x" aria-hidden="true"></span>
+                        </div>
+                    </a>
+                }
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+        <div class="panel panel-success" id="landingScreen">
+            <div class="panel-heading">
+                <h2 class="text-center">
+                    Meine Freunde
+                </h2>
+            </div>
+            <div class="panel-body">
+
+                <form method="POST" action="/Manage/newFriend" accept-charset="UTF-8" class="form">
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <br>
+                    <label for="freundesschluessel">Freundesschlüssel zum eintragen und bearbeiten in Turnieren</label>
+                    <input class="form-control" placeholder="Dein Schlüssel findest du bei deinen Einstellungen" name="freundesschluessel" type="text" id="freundesschluessel">
+                    <br>
+                    <input class="btn btn-success btn-lg" type="submit" value="suchen">
+                </form>
+
+                    <hr>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            @if (Model.User.User_has_friends.Count()!=0)
+                            {
+                                <thead>
+                                    <tr>
+                                        <td>
+                                            Freunde
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                            }
+                            
+                            <tbody>
+                                @foreach (var item in Model.FriendList)
+                                {
+                                    <tr>
+                                        <td>
+                                            @item.name                                            
+                                        </td>
+                                        <td>
+                                            <form method="POST" action="/Manage/deleteFriend" accept-charset="UTF-8" class="form">
+                                                @Html.AntiForgeryToken() 
+                                                <input type="hidden" value="@item.Id" name="friend_id" />                                             
+                                                <button type="submit" class="btn btn-danger btn-xs center-block"><i class="fa fa-trash-o"></i></button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+</div>
+        </div>
+        <div class="panel panel-success" id="landingScreen">
+            <div class="panel-heading">
+                <h2 class="text-center">
+                    Vergangene Turniere
+                </h2>
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                        <th>
+                            Name des Turniers
+                        </th>
+                        <th>
+                            Anzahl der Teilnehmer
+                        </th>
+                        @*<th>
+                            Gewinner
+                        </th>
+                        <th>
+                            Sieger-Team
+                        </th>*@
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.User.Tournament.Where(i => i.status == 3).OrderByDescending(i => i.Id))
+                            {
+                            <tr>
+                                <td>
+                                    @item.name
+                                </td>
+                                <td>
+                                    @item.countUser
+                                </td>
+                                @*<td>
+                                    {!! \App\Team::find($tour->winner)->user->username !!}
+                                </td>
+                                <td>
+                                    {!! \App\Team::find($tour->winner)->name !!}
+                                </td>*@
+                                <td>
+                                    <form action="/Tournament/Edit" method="post">
+                                        @Html.AntiForgeryToken()
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        <input type="hidden" value="@item.Id" name="tour_id" id="tour_id" />
+                                        <button type="submit" class="btn btn-success center-block" style="" id=""><i class="fa fa-pencil-square"></i></button>
+                                    </form>
+
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>

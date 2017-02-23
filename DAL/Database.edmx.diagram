@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f97e601c02dc4e339e34fffaf5e64e2e" Name="Diagram1" ZoomLevel="98" >
+        <EntityTypeShape EntityType="Database.Statistic" Width="1.5" PointX="0.5" PointY="4.375" />
+        <EntityTypeShape EntityType="Database.User" Width="1.5" PointX="1.875" PointY="0.875" />
+        <EntityTypeShape EntityType="Database.Tournament" Width="1.5" PointX="7.125" PointY="0.5" />
+        <EntityTypeShape EntityType="Database.Team" Width="1.5" PointX="5" PointY="3" />
+        <EntityTypeShape EntityType="Database.GroupCard" Width="1.5" PointX="9.125" PointY="3.375" />
+        <EntityTypeShape EntityType="Database.Modus" Width="1.5" PointX="10.875" PointY="0.75" />
+        <EntityTypeShape EntityType="Database.Matching" Width="1.5" PointX="11.125" PointY="3.375" />
+        <EntityTypeShape EntityType="Database.Round" Width="1.5" PointX="14.25" PointY="3.5" />
+        <AssociationConnector Association="Database.UserTournament" />
+        <AssociationConnector Association="Database.TournamentModus" />
+        <AssociationConnector Association="Database.MatchingRound" />
+        <AssociationConnector Association="Database.UserTeam" />
+        <EntityTypeShape EntityType="Database.User_has_friends" PointX="4.875" PointY="0.5" Width="1.5" />
+        <AssociationConnector Association="Database.StatisticUser" />
+        <AssociationConnector Association="Database.StatisticTeam" />
+        <AssociationConnector Association="Database.StatisticGroupCard" />
+        <AssociationConnector Association="Database.TeamGroupCard" />
+        <AssociationConnector Association="Database.TournamentGroupCard" />
+        <AssociationConnector Association="Database.TournamentMatching" />
+        <AssociationConnector Association="Database.UserUser_has_friends" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

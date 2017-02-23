@@ -1,0 +1,113 @@
+﻿@using makeyourtournament.Models
+@model TeamEdit
+<div class="row">
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-10">
+        <div class="panel panel-success" id="landingScreen">
+            <div class="panel-heading">
+                <h2 class="text-center">
+                    <a href="/">
+                        <button class="btn btn-danger pull-left" style="" id=""><i class="fa fa-arrow-left"></i></button>
+                    </a>
+                    Meine Teams 
+                </h2>
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive registertable">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Team-Name</th>
+                                <th>Spiele</th>
+                                <th>Siege</th>
+                                <th>Niederlagen</th>
+                                <th>Unendschieden</th>
+                                <th>Tore</th>
+                                <th>Gegentore</th>
+                                <th>Differnez</th>
+                                <th>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                                @foreach (var item in Model.TeamList)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.name)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Statistic.totalGames)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Statistic.wins)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Statistic.loses)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Statistic.draws)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Statistic.goals)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Statistic.owngoals)
+                                        </td>
+                                        <td>
+                                            @{
+                                                int differnz = item.Statistic.goals - item.Statistic.owngoals;
+                                            }
+                                            @differnz
+
+                                        </td>
+                                    </tr>
+                                                }
+                                <tr>
+                                    <form action="/Team/Create" method="post">
+                                        @Html.AntiForgeryToken()
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                        <td>
+                                            <input class="form-control text-box single-line" id="name" name="name" type="text" value="" placeholder="Teamname">
+                                        </td>
+                                        <td>
+                                            0
+                                        </td>
+                                        <td>
+                                            0
+                                        </td>
+                                        <td>
+                                            0
+                                        </td>
+                                        <td>
+                                            0
+                                        </td>
+                                        <td>
+                                            0
+                                        </td>
+                                        <td>
+                                            0
+                                        </td>
+                                        <td>
+                                            0
+                                        </td>
+                                        <td>
+                                            <button type="submit" class="btn btn-success btn-md center-block" style="" id=""><i class="fa fa-pencil-square"></i> hinzufügen</button>
+                                        </td>
+                                    </form>
+
+
+</tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1">
+    </div>
+</div>

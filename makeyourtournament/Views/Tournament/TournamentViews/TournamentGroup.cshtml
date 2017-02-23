@@ -1,0 +1,122 @@
+﻿@using makeyourtournament.Models
+@model TournamentViewModel 
+@if (Model.User.Id == Model.Tournament.owner && Model.Tournament.status != 3)
+{
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="text-center">
+                        <a href="/">
+                            <button class="btn btn-danger pull-left" style="" id=""><i class="fa fa-arrow-left"></i></button>
+                        </a>
+                        Turnier Übersicht Gruppenphase - @Model.Tournament.name
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            Gespielte Spiele: @Model.Tournament.Matching.Where(i => i.goalA != -1).Count()                            
+                        </div>
+                        <div class="col-md-4">
+                            noch zu spielende Spiele: @Model.Tournament.Matching.Where(i => i.goalA == -1).Count()   
+                        </div>
+                        <div class="col-md-4">
+                            @if (Model.Tournament.Matching.Where(i => i.goalA != -1).Count() == Model.Tournament.Matching.Count())
+                            {
+                                if (Model.Tournament.Modus.Id == 1)
+                                {
+                                    <form action="/Tournament/FromGroupToKO" method="post">
+                                        @Html.AntiForgeryToken()
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        <input type="hidden" id="tour_id" name="tour_id" value="@Model.Tournament.Id" />
+                                        <button class="btn btn-success center-block" type="submit">
+                                            <i class="fa fa-trophy"></i> Zur Endrunde
+                                        </button>
+                                    </form>
+                                }
+                                if (Model.Tournament.Modus.Id == 2)
+                                {
+                                    <form action="/Tournament/EndGroup" method="post">
+                                        @Html.AntiForgeryToken()
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        <input type="hidden" id="tour_id" name="tour_id" value="@Model.Tournament.Id" />
+                                        <button  class="btn btn-success center-block" type="submit">
+                                            <i class="fa fa-trophy"></i> Liga Beenden und Sieger ermittlen
+                                        </button>
+                                    </form>
+                                }
+                            }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+}
+        @if (Model.Tournament.status == 3)
+        {
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h3 class="text-center">
+                            <a href="/">
+                                <button class="btn btn-danger pull-left" style="" id=""><i class="fa fa-arrow-left"></i></button>
+                            </a>
+                            Turnier Übersicht - @Model.Tournament.name
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-1">
+                            </div>
+                            <div class="col-md-10 text-center">
+                                <h3 style="color: black">
+                                    @{ 
+                                        String winner = "Turnier muss erst Beendet werden";
+                                        if (Model.Tournament.Modus.Id == 3)
+                                        {
+                                            foreach (var item in Model.TeamNames)
+                                            {
+                                                if (item.Id == Model.Tournament.winner)
+                                                {
+                                                    winner = item.name;
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            foreach (var item in Model.Tournament.GroupCard)
+                                            {
+                                                if (item.Team.Id == Model.Tournament.winner)
+                                                {
+                                                    winner = item.Team.name;
+                                                }
+                                            }
+                                        }
+
+                                    }
+                                    Sieger: @winner
+                                </h3>
+                            </div>
+                            <div class="col-md-1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+        }
+        @if (Model.Tournament.Modus.Id == 1)
+        {
+            Html.RenderPartial("~/Views/Tournament/TournamentViews/MoreThanOneGroup.cshtml",Model);
+        }
+        else
+        {
+            Html.RenderPartial("~/Views/Tournament/TournamentViews/OneGroup.cshtml",Model);
+        }

@@ -1,0 +1,80 @@
+﻿@using makeyourtournament.Models
+@model CreateTournamentViewModel
+
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h2 class="text-center">
+                        <a href="/">
+                            <button class="btn btn-danger pull-left" style="" id=""><i class="fa fa-arrow-left"></i></button>
+                        </a>
+                            neues Turnier erstellen
+                    </h2>
+                </div>
+                <div class="panel-body">
+                    <div class="container">
+                        <form action="/Tournament/Create" method="post">
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group">
+                                Turniername
+                                <div class="col-sm-6">
+                                    <input class="form-control text-box single-line" id="name" name="name" placeholder="Turniername" type="text" value="">
+                                </div>
+                            </div>
+                            <div class="form-group" id="showModus">
+                                
+                                Modus
+                                <div class="col-sm-6">
+                                    <select id="modus" name="modus">
+                                        @foreach (var item in Model.Modus)
+                                        {                                       
+                                            <option value="@item.Id">
+                                                    @item.name
+                                            </option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group" id="showAnzahlGruppen">
+                                Anzahl der Gruppen
+                                <div class="col-sm-6">
+                                    <select id="anzahlGruppen" name="anzahlGruppen">
+                                        <option value="2">2</option>
+                                        <option value="4">4</option>
+                                        <option value="8">8</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="form-group" id="showAnzahlSpieler">
+                                Anzahl Spieler
+                                <div class="col-sm-6" id="showAnzahlSpielerField">
+
+                                </div>
+                            </div>
+                            <div class="form-group" id="showTeamsProSpieler">
+                                Manschaften pro Spieler
+                                <div class="col-sm-6" id="showTeamsProSpielerField">
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-8">
+                                    <button type="submit" class="btn btn-success btn-lg center-block" style="" id=""> erstellen</button>
+
+                                </div>
+                            </div>
+                        </form>
+
+</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+
+
+@Scripts.Render("~/Scripts/createTournament.js")

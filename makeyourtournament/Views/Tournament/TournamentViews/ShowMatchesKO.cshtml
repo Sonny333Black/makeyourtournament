@@ -1,0 +1,125 @@
+﻿@using makeyourtournament.Models
+@model KOMatchesViewModel
+    @{ 
+        DAL.Team teamA = null;
+        DAL.Team teamB = null;
+        foreach (var item in Model.TeamNames)
+        {
+            if (item.Id == Model.Match.teamA)
+            {
+                teamA = item;
+            }
+            if (item.Id == Model.Match.teamB)
+            {
+                teamB = item;
+            }
+        }
+    }
+@if (Model.Tournament.owner == Model.User.Id && Model.Tournament.status == 2)
+{
+    <tr>
+        <form method="post" action="/Tournament/SaveMatchKO">
+            @Html.AntiForgeryToken()
+            <td>
+                @if (teamA != null)
+                {
+                    @(teamA.name + " (" + teamA.User.name + ")")
+                }
+                        else {
+                    @(" - ")
+                            }
+            </td>
+            <td>
+                @if (Model.Match.goalA == -1 && Model.Match.teamA != -1 && Model.Match.teamB != -1)
+                {
+                    <input type="number" name="goalA" min="0" value="" class="form-control">
+                }
+                else if (Model.Match.goalA != -1)
+                {
+                    @(Model.Match.goalA)
+                }
+
+            </td>
+            <td>
+                :
+            </td>
+            <td>
+                @if (Model.Match.goalB == -1 && Model.Match.teamA != -1 && Model.Match.teamB != -1)
+                {
+                    <input type="number" name="goalB" min="0" value="" class="form-control">
+                }
+                else if (Model.Match.goalB != -1)
+                {
+                    @(Model.Match.goalB)
+                }
+                    
+            </td>
+            <td>
+                @if (teamB != null)
+                {
+                    @(teamB.name + " (" + teamB.User.name + ")")
+                }
+                else
+                {
+                    @(" - ")
+                }
+            </td>
+            @if (Model.Match.goalA == -1 || Model.Match.goalB == -1)
+            {
+            <td>
+                @if (teamA != null && teamB != null)
+                {
+                <input type="hidden" id="match_id" name="match_id" value="@Model.Match.Id" />
+                <button class="btn btn-info btn-sm" type="submit">
+                    <i class="fa fa-pencil"></i>
+                </button>
+                }
+            </td>
+            }
+        </form>
+    </tr>
+}
+else
+{
+    <tr>
+        <td>
+            @if (teamA != null)
+                {
+                @(teamA.name + " (" + teamA.User.name + " )")
+            }
+            else
+            {
+                @(" - ")
+            }
+        </td>
+        <td>
+            @if (Model.Match.goalA != -1)
+            {
+                @(Model.Match.goalA)
+            }else{
+            @(" - ")
+            }
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            @if (Model.Match.goalB != -1)
+            {
+            @(Model.Match.goalB)
+            }else{
+            @(" - ")
+            }
+        </td>
+        <td>
+            @if (teamB != null)
+                {
+                @(teamB.name + " (" + teamB.User.name + " )")
+            }
+            else
+            {
+                @(" - ")
+            }
+        </td>
+    </tr>
+}

@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+
+<div class="row">
+            
+    @if (Request.IsAuthenticated)
+    {
+        <div class="col-md-12">
+            @RenderPage("~/Views/InApp/landing.cshtml")
+        </div>
+    }
+    else
+    {
+        <div class="col-md-3">
+            @RenderPage("~/Views/Account/Login.cshtml")
+        </div>
+        <div class="col-md-9">
+            @RenderPage("~/Views/Home/landing.cshtml")
+        </div>
+    }
+    
+    @Scripts.Render("~/Scripts/webSocketVerbindung.js")
+
+</div>
+
+       
+
+        
+
+

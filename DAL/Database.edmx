@@ -1,0 +1,735 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Database.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="DatabaseStoreContainer">
+    <EntitySet Name="StatisticSet" EntityType="Database.Store.StatisticSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UserSet" EntityType="Database.Store.UserSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TournamentSet" EntityType="Database.Store.TournamentSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TeamSet" EntityType="Database.Store.TeamSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GroupCardSet" EntityType="Database.Store.GroupCardSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ModusSet" EntityType="Database.Store.ModusSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MatchingSet" EntityType="Database.Store.MatchingSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RoundSet" EntityType="Database.Store.RoundSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="User_has_friendsSet" EntityType="Database.Store.User_has_friendsSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UserTournament" EntityType="Database.Store.UserTournament" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_UserTournament_User" Association="Database.Store.FK_UserTournament_User">
+      <End Role="User" EntitySet="UserSet" />
+      <End Role="UserTournament" EntitySet="UserTournament" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserTournament_Tournament" Association="Database.Store.FK_UserTournament_Tournament">
+      <End Role="Tournament" EntitySet="TournamentSet" />
+      <End Role="UserTournament" EntitySet="UserTournament" />
+    </AssociationSet>
+    <AssociationSet Name="TournamentModus" Association="Database.Store.TournamentModus">
+      <End Role="Tournament" EntitySet="TournamentSet" />
+      <End Role="Modus" EntitySet="ModusSet" />
+    </AssociationSet>
+    <AssociationSet Name="MatchingRound" Association="Database.Store.MatchingRound">
+      <End Role="Matching" EntitySet="MatchingSet" />
+      <End Role="Round" EntitySet="RoundSet" />
+    </AssociationSet>
+    <AssociationSet Name="UserTeam" Association="Database.Store.UserTeam">
+      <End Role="User" EntitySet="UserSet" />
+      <End Role="Team" EntitySet="TeamSet" />
+    </AssociationSet>
+    <AssociationSet Name="StatisticUser" Association="Database.Store.StatisticUser">
+      <End Role="Statistic" EntitySet="StatisticSet" />
+      <End Role="User" EntitySet="UserSet" />
+    </AssociationSet>
+    <AssociationSet Name="StatisticTeam" Association="Database.Store.StatisticTeam">
+      <End Role="Statistic" EntitySet="StatisticSet" />
+      <End Role="Team" EntitySet="TeamSet" />
+    </AssociationSet>
+    <AssociationSet Name="StatisticGroupCard" Association="Database.Store.StatisticGroupCard">
+      <End Role="Statistic" EntitySet="StatisticSet" />
+      <End Role="GroupCard" EntitySet="GroupCardSet" />
+    </AssociationSet>
+    <AssociationSet Name="TeamGroupCard" Association="Database.Store.TeamGroupCard">
+      <End Role="Team" EntitySet="TeamSet" />
+      <End Role="GroupCard" EntitySet="GroupCardSet" />
+    </AssociationSet>
+    <AssociationSet Name="TournamentGroupCard" Association="Database.Store.TournamentGroupCard">
+      <End Role="Tournament" EntitySet="TournamentSet" />
+      <End Role="GroupCard" EntitySet="GroupCardSet" />
+    </AssociationSet>
+    <AssociationSet Name="TournamentMatching" Association="Database.Store.TournamentMatching">
+      <End Role="Tournament" EntitySet="TournamentSet" />
+      <End Role="Matching" EntitySet="MatchingSet" />
+    </AssociationSet>
+    <AssociationSet Name="UserUser_has_friends" Association="Database.Store.UserUser_has_friends">
+      <End Role="User" EntitySet="UserSet" />
+      <End Role="User_has_friends" EntitySet="User_has_friendsSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="StatisticSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="goals" Type="int" Nullable="false" />
+    <Property Name="owngoals" Type="int" Nullable="false" />
+    <Property Name="points" Type="int" Nullable="false" />
+    <Property Name="wins" Type="int" Nullable="false" />
+    <Property Name="loses" Type="int" Nullable="false" />
+    <Property Name="draws" Type="int" Nullable="false" />
+    <Property Name="totalGames" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="email" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="friend_key" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Statistic_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TournamentSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="winner" Type="int" Nullable="false" />
+    <Property Name="countTeamsForUser" Type="int" Nullable="false" />
+    <Property Name="owner" Type="int" Nullable="false" />
+    <Property Name="countUser" Type="int" Nullable="false" />
+    <Property Name="countGroups" Type="int" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="Modus_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TeamSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="Statistic_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GroupCardSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="groupNumber" Type="int" Nullable="false" />
+    <Property Name="TeamId" Type="int" Nullable="true" />
+    <Property Name="TournamentId" Type="int" Nullable="true" />
+    <Property Name="Statistic_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ModusSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="description" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MatchingSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="teamA" Type="int" Nullable="false" />
+    <Property Name="teamB" Type="int" Nullable="false" />
+    <Property Name="goalA" Type="int" Nullable="false" />
+    <Property Name="goalB" Type="int" Nullable="false" />
+    <Property Name="TournamentId" Type="int" Nullable="true" />
+    <Property Name="Round_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="RoundSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="User_has_friendsSet">
+    <Key>
+      <PropertyRef Name="friend_id" />
+      <PropertyRef Name="User_Id" />
+    </Key>
+    <Property Name="User_Id" Type="int" Nullable="false" />
+    <Property Name="friend_id" Type="int" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserTournament">
+    <Key>
+      <PropertyRef Name="User_Id" />
+      <PropertyRef Name="Tournament_Id" />
+    </Key>
+    <Property Name="User_Id" Type="int" Nullable="false" />
+    <Property Name="Tournament_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="TournamentModus">
+    <End Role="Tournament" Type="Database.Store.TournamentSet" Multiplicity="*" />
+    <End Role="Modus" Type="Database.Store.ModusSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Modus">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Tournament">
+        <PropertyRef Name="Modus_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="MatchingRound">
+    <End Role="Matching" Type="Database.Store.MatchingSet" Multiplicity="*" />
+    <End Role="Round" Type="Database.Store.RoundSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Round">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Matching">
+        <PropertyRef Name="Round_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserTeam">
+    <End Role="User" Type="Database.Store.UserSet" Multiplicity="1" />
+    <End Role="Team" Type="Database.Store.TeamSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Team">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="StatisticUser">
+    <End Role="Statistic" Type="Database.Store.StatisticSet" Multiplicity="1" />
+    <End Role="User" Type="Database.Store.UserSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Statistic">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="Statistic_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="StatisticTeam">
+    <End Role="Statistic" Type="Database.Store.StatisticSet" Multiplicity="1" />
+    <End Role="Team" Type="Database.Store.TeamSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Statistic">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Team">
+        <PropertyRef Name="Statistic_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="StatisticGroupCard">
+    <End Role="Statistic" Type="Database.Store.StatisticSet" Multiplicity="1" />
+    <End Role="GroupCard" Type="Database.Store.GroupCardSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Statistic">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupCard">
+        <PropertyRef Name="Statistic_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TeamGroupCard">
+    <End Role="Team" Type="Database.Store.TeamSet" Multiplicity="0..1" />
+    <End Role="GroupCard" Type="Database.Store.GroupCardSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Team">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupCard">
+        <PropertyRef Name="TeamId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TournamentGroupCard">
+    <End Role="Tournament" Type="Database.Store.TournamentSet" Multiplicity="0..1" />
+    <End Role="GroupCard" Type="Database.Store.GroupCardSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tournament">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupCard">
+        <PropertyRef Name="TournamentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TournamentMatching">
+    <End Role="Tournament" Type="Database.Store.TournamentSet" Multiplicity="0..1" />
+    <End Role="Matching" Type="Database.Store.MatchingSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tournament">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Matching">
+        <PropertyRef Name="TournamentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserUser_has_friends">
+    <End Role="User" Type="Database.Store.UserSet" Multiplicity="1" />
+    <End Role="User_has_friends" Type="Database.Store.User_has_friendsSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="User_has_friends">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserTournament_User">
+    <End Role="User" Type="Database.Store.UserSet" Multiplicity="1" />
+    <End Role="UserTournament" Type="Database.Store.UserTournament" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserTournament">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserTournament_Tournament">
+    <End Role="UserTournament" Type="Database.Store.UserTournament" Multiplicity="*" />
+    <End Role="Tournament" Type="Database.Store.TournamentSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Tournament">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserTournament">
+        <PropertyRef Name="Tournament_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Database" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="DatabaseContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="StatisticSet" EntityType="Database.Statistic" />
+          <EntitySet Name="UserSet" EntityType="Database.User" />
+          <EntitySet Name="TournamentSet" EntityType="Database.Tournament" />
+          <EntitySet Name="TeamSet" EntityType="Database.Team" />
+          <EntitySet Name="GroupCardSet" EntityType="Database.GroupCard" />
+          <EntitySet Name="ModusSet" EntityType="Database.Modus" />
+          <EntitySet Name="MatchingSet" EntityType="Database.Matching" />
+          <EntitySet Name="RoundSet" EntityType="Database.Round" />
+          <AssociationSet Name="UserTournament" Association="Database.UserTournament">
+            <End Role="User" EntitySet="UserSet" />
+            <End Role="Tournament" EntitySet="TournamentSet" />
+          </AssociationSet>
+          <AssociationSet Name="TournamentModus" Association="Database.TournamentModus">
+            <End Role="Tournament" EntitySet="TournamentSet" />
+            <End Role="Modus" EntitySet="ModusSet" />
+          </AssociationSet>
+          <AssociationSet Name="MatchingRound" Association="Database.MatchingRound">
+            <End Role="Matching" EntitySet="MatchingSet" />
+            <End Role="Round" EntitySet="RoundSet" />
+          </AssociationSet>
+          <AssociationSet Name="UserTeam" Association="Database.UserTeam">
+            <End Role="User" EntitySet="UserSet" />
+            <End Role="Team" EntitySet="TeamSet" />
+          </AssociationSet>
+          <EntitySet Name="User_has_friendsSet" EntityType="Database.User_has_friends" />
+          <AssociationSet Name="StatisticUser" Association="Database.StatisticUser">
+            <End Role="Statistic" EntitySet="StatisticSet" />
+            <End Role="User" EntitySet="UserSet" />
+          </AssociationSet>
+          <AssociationSet Name="StatisticTeam" Association="Database.StatisticTeam">
+            <End Role="Statistic" EntitySet="StatisticSet" />
+            <End Role="Team" EntitySet="TeamSet" />
+          </AssociationSet>
+          <AssociationSet Name="StatisticGroupCard" Association="Database.StatisticGroupCard">
+            <End Role="Statistic" EntitySet="StatisticSet" />
+            <End Role="GroupCard" EntitySet="GroupCardSet" />
+          </AssociationSet>
+          <AssociationSet Name="TeamGroupCard" Association="Database.TeamGroupCard">
+            <End Role="Team" EntitySet="TeamSet" />
+            <End Role="GroupCard" EntitySet="GroupCardSet" />
+          </AssociationSet>
+          <AssociationSet Name="TournamentGroupCard" Association="Database.TournamentGroupCard">
+            <End Role="Tournament" EntitySet="TournamentSet" />
+            <End Role="GroupCard" EntitySet="GroupCardSet" />
+          </AssociationSet>
+          <AssociationSet Name="TournamentMatching" Association="Database.TournamentMatching">
+            <End Role="Tournament" EntitySet="TournamentSet" />
+            <End Role="Matching" EntitySet="MatchingSet" />
+          </AssociationSet>
+          <AssociationSet Name="UserUser_has_friends" Association="Database.UserUser_has_friends">
+            <End Role="User" EntitySet="UserSet" />
+            <End Role="User_has_friends" EntitySet="User_has_friendsSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Statistic">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="goals" Type="Int32" Nullable="false" />
+          <Property Name="owngoals" Type="Int32" Nullable="false" />
+          <Property Name="points" Type="Int32" Nullable="false" />
+          <Property Name="wins" Type="Int32" Nullable="false" />
+          <Property Name="loses" Type="Int32" Nullable="false" />
+          <Property Name="draws" Type="Int32" Nullable="false" />
+          <Property Name="totalGames" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Database.StatisticUser" FromRole="Statistic" ToRole="User" />
+          <NavigationProperty Name="Team" Relationship="Database.StatisticTeam" FromRole="Statistic" ToRole="Team" />
+          <NavigationProperty Name="GroupCard" Relationship="Database.StatisticGroupCard" FromRole="Statistic" ToRole="GroupCard" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" />
+          <Property Name="email" Type="String" Nullable="false" />
+          <Property Name="friend_key" Type="String" Nullable="false" />
+          <NavigationProperty Name="Tournament" Relationship="Database.UserTournament" FromRole="User" ToRole="Tournament" />
+          <NavigationProperty Name="Team" Relationship="Database.UserTeam" FromRole="User" ToRole="Team" />
+          <NavigationProperty Name="Statistic" Relationship="Database.StatisticUser" FromRole="User" ToRole="Statistic" />
+          <NavigationProperty Name="User_has_friends" Relationship="Database.UserUser_has_friends" FromRole="User" ToRole="User_has_friends" />
+          </EntityType>
+        <EntityType Name="Tournament">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" />
+          <Property Name="winner" Type="Int32" Nullable="false" />
+          <Property Name="countTeamsForUser" Type="Int32" Nullable="false" />
+          <Property Name="owner" Type="Int32" Nullable="false" />
+          <Property Name="countUser" Type="Int32" Nullable="false" />
+          <Property Name="countGroups" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Database.UserTournament" FromRole="Tournament" ToRole="User" />
+          <NavigationProperty Name="Modus" Relationship="Database.TournamentModus" FromRole="Tournament" ToRole="Modus" />
+          <NavigationProperty Name="GroupCard" Relationship="Database.TournamentGroupCard" FromRole="Tournament" ToRole="GroupCard" />
+          <NavigationProperty Name="Matching" Relationship="Database.TournamentMatching" FromRole="Tournament" ToRole="Matching" />
+          <Property Name="status" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Database.UserTeam" FromRole="Team" ToRole="User" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Statistic" Relationship="Database.StatisticTeam" FromRole="Team" ToRole="Statistic" />
+          <NavigationProperty Name="GroupCard" Relationship="Database.TeamGroupCard" FromRole="Team" ToRole="GroupCard" />
+        </EntityType>
+        <EntityType Name="GroupCard">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="groupNumber" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Statistic" Relationship="Database.StatisticGroupCard" FromRole="GroupCard" ToRole="Statistic" />
+          <NavigationProperty Name="Team" Relationship="Database.TeamGroupCard" FromRole="GroupCard" ToRole="Team" />
+          <Property Name="TeamId" Type="Int32" Nullable="true" />
+          <NavigationProperty Name="Tournament" Relationship="Database.TournamentGroupCard" FromRole="GroupCard" ToRole="Tournament" />
+          <Property Name="TournamentId" Type="Int32" Nullable="true" />
+        </EntityType>
+        <EntityType Name="Modus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" />
+          <Property Name="description" Type="String" Nullable="false" />
+          <NavigationProperty Name="Tournament" Relationship="Database.TournamentModus" FromRole="Modus" ToRole="Tournament" />
+        </EntityType>
+        <EntityType Name="Matching">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="teamA" Type="Int32" Nullable="false" />
+          <Property Name="teamB" Type="Int32" Nullable="false" />
+          <Property Name="goalA" Type="Int32" Nullable="false" />
+          <Property Name="goalB" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Round" Relationship="Database.MatchingRound" FromRole="Matching" ToRole="Round" />
+          <NavigationProperty Name="Tournament" Relationship="Database.TournamentMatching" FromRole="Matching" ToRole="Tournament" />
+          <Property Name="TournamentId" Type="Int32" Nullable="true" />
+        </EntityType>
+        <EntityType Name="Round">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" />
+          <NavigationProperty Name="Matching" Relationship="Database.MatchingRound" FromRole="Round" ToRole="Matching" />
+        </EntityType>
+        <Association Name="UserTournament">
+          <End Type="Database.User" Role="User" Multiplicity="*" />
+          <End Type="Database.Tournament" Role="Tournament" Multiplicity="*" />
+        </Association>
+        <Association Name="TournamentModus">
+          <End Type="Database.Tournament" Role="Tournament" Multiplicity="*" />
+          <End Type="Database.Modus" Role="Modus" Multiplicity="1" />
+        </Association>
+        <Association Name="MatchingRound">
+          <End Type="Database.Matching" Role="Matching" Multiplicity="*" />
+          <End Type="Database.Round" Role="Round" Multiplicity="1" />
+        </Association>
+        <Association Name="UserTeam">
+          <End Type="Database.User" Role="User" Multiplicity="1" />
+          <End Type="Database.Team" Role="Team" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Team">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="User_has_friends">
+          <Key>
+            <PropertyRef Name="friend_id" />
+            <PropertyRef Name="User_Id" />
+          </Key>
+          <Property Name="User_Id" Nullable="false" Type="Int32" />
+          <Property Name="friend_id" Nullable="false" Type="Int32" />
+          <NavigationProperty Name="User" Relationship="Database.UserUser_has_friends" FromRole="User_has_friends" ToRole="User" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="StatisticUser">
+          <End Type="Database.Statistic" Role="Statistic" Multiplicity="1" />
+          <End Type="Database.User" Role="User" Multiplicity="0..1" />
+        </Association>
+        <Association Name="StatisticTeam">
+          <End Type="Database.Statistic" Role="Statistic" Multiplicity="1" />
+          <End Type="Database.Team" Role="Team" Multiplicity="0..1" />
+        </Association>
+        <Association Name="StatisticGroupCard">
+          <End Type="Database.Statistic" Role="Statistic" Multiplicity="1" />
+          <End Type="Database.GroupCard" Role="GroupCard" Multiplicity="0..1" />
+        </Association>
+        <Association Name="TeamGroupCard">
+          <End Type="Database.Team" Role="Team" Multiplicity="0..1" />
+          <End Type="Database.GroupCard" Role="GroupCard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GroupCard">
+              <PropertyRef Name="TeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TournamentGroupCard">
+          <End Type="Database.Tournament" Role="Tournament" Multiplicity="0..1" />
+          <End Type="Database.GroupCard" Role="GroupCard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tournament">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GroupCard">
+              <PropertyRef Name="TournamentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TournamentMatching">
+          <End Type="Database.Tournament" Role="Tournament" Multiplicity="0..1" />
+          <End Type="Database.Matching" Role="Matching" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tournament">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Matching">
+              <PropertyRef Name="TournamentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserUser_has_friends">
+          <End Type="Database.User" Role="User" Multiplicity="1" />
+          <End Type="Database.User_has_friends" Role="User_has_friends" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User_has_friends">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DatabaseStoreContainer" CdmEntityContainer="DatabaseContainer">
+    <EntitySetMapping Name="StatisticSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Database.Statistic)">
+        <MappingFragment StoreEntitySet="StatisticSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="goals" ColumnName="goals" />
+          <ScalarProperty Name="owngoals" ColumnName="owngoals" />
+          <ScalarProperty Name="points" ColumnName="points" />
+          <ScalarProperty Name="wins" ColumnName="wins" />
+          <ScalarProperty Name="loses" ColumnName="loses" />
+          <ScalarProperty Name="draws" ColumnName="draws" />
+          <ScalarProperty Name="totalGames" ColumnName="totalGames" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Database.User)">
+        <MappingFragment StoreEntitySet="UserSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="friend_key" ColumnName="friend_key" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TournamentSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Database.Tournament)">
+        <MappingFragment StoreEntitySet="TournamentSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="winner" ColumnName="winner" />
+          <ScalarProperty Name="countTeamsForUser" ColumnName="countTeamsForUser" />
+          <ScalarProperty Name="owner" ColumnName="owner" />
+          <ScalarProperty Name="countUser" ColumnName="countUser" />
+          <ScalarProperty Name="countGroups" ColumnName="countGroups" />
+          <ScalarProperty Name="status" ColumnName="status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TeamSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Database.Team)">
+        <MappingFragment StoreEntitySet="TeamSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GroupCardSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Database.GroupCard)">
+        <MappingFragment StoreEntitySet="GroupCardSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="groupNumber" ColumnName="groupNumber" />
+          <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+          <ScalarProperty Name="TournamentId" ColumnName="TournamentId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ModusSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Database.Modus)">
+        <MappingFragment StoreEntitySet="ModusSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="description" ColumnName="description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MatchingSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Database.Matching)">
+        <MappingFragment StoreEntitySet="MatchingSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="teamA" ColumnName="teamA" />
+          <ScalarProperty Name="teamB" ColumnName="teamB" />
+          <ScalarProperty Name="goalA" ColumnName="goalA" />
+          <ScalarProperty Name="goalB" ColumnName="goalB" />
+          <ScalarProperty Name="TournamentId" ColumnName="TournamentId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RoundSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Database.Round)">
+        <MappingFragment StoreEntitySet="RoundSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="User_has_friendsSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Database.User_has_friends)">
+        <MappingFragment StoreEntitySet="User_has_friendsSet">
+          <ScalarProperty Name="friend_id" ColumnName="friend_id" />
+          <ScalarProperty Name="User_Id" ColumnName="User_Id" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="UserTournament" TypeName="Database.UserTournament" StoreEntitySet="UserTournament">
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="User_Id" />
+      </EndProperty>
+      <EndProperty Name="Tournament">
+        <ScalarProperty Name="Id" ColumnName="Tournament_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="TournamentModus" TypeName="Database.TournamentModus" StoreEntitySet="TournamentSet">
+      <EndProperty Name="Modus">
+        <ScalarProperty Name="Id" ColumnName="Modus_Id" />
+      </EndProperty>
+      <EndProperty Name="Tournament">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="MatchingRound" TypeName="Database.MatchingRound" StoreEntitySet="MatchingSet">
+      <EndProperty Name="Round">
+        <ScalarProperty Name="Id" ColumnName="Round_Id" />
+      </EndProperty>
+      <EndProperty Name="Matching">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="StatisticUser" TypeName="Database.StatisticUser" StoreEntitySet="UserSet">
+      <EndProperty Name="Statistic">
+        <ScalarProperty Name="Id" ColumnName="Statistic_Id" />
+      </EndProperty>
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="StatisticTeam" TypeName="Database.StatisticTeam" StoreEntitySet="TeamSet">
+      <EndProperty Name="Statistic">
+        <ScalarProperty Name="Id" ColumnName="Statistic_Id" />
+      </EndProperty>
+      <EndProperty Name="Team">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="StatisticGroupCard" TypeName="Database.StatisticGroupCard" StoreEntitySet="GroupCardSet">
+      <EndProperty Name="Statistic">
+        <ScalarProperty Name="Id" ColumnName="Statistic_Id" />
+      </EndProperty>
+      <EndProperty Name="GroupCard">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Kein" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
